@@ -54,6 +54,17 @@ class GamesController {
             }
         });
     }
+    read2(eq, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield database_1.default.then((cmd) => {
+                cmd.query('SELECT * FROM GAMESS').then((GAMES) => {
+                    console.log(GAMES);
+                }).catch((error) => {
+                    console.log(error);
+                });
+            });
+        });
+    }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const connection = yield (yield database_1.default).getConnection();

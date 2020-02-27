@@ -39,6 +39,15 @@ class GamesController {
         }
     }
 
+    async read2(eq: Request, res: Response): Promise<void> {
+        await pool.then((cmd) => {
+            cmd.query('SELECT * FROM GAMESS').then((GAMES) => {
+                console.log(GAMES);
+            }).catch((error) => {
+                console.log(error);
+            });
+        });
+    }
 
     public async update(req: Request, res: Response): Promise<void> {
         const connection = await (await pool).getConnection();

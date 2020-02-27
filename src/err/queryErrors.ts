@@ -38,6 +38,9 @@ class QueryErrors {
             if (err.code === 'ER_ACCESS_DENIED_ERROR') {
                 console.error('Access denied for user.')
             }
+            if (err.code === 'ER_NO_SUCH_TABLE') {
+                console.error('Access denied for user.')
+            }
         }
     }
 }
