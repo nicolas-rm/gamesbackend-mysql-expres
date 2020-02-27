@@ -20,7 +20,7 @@ class GamesRoutes {
     /* CONFIGURA LAS RUTAS */
     config() {
         this.router.post('/', gamesController_1.default.create);
-        this.router.get('/', gamesController_1.default.read2);
+        this.router.get('/', gamesController_1.default.read);
         this.router.get('/:id', gamesController_1.default.readOne);
         this.router.put('/:id', gamesController_1.default.update);
         this.router.delete('/:id', gamesController_1.default.delete);

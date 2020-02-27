@@ -8,6 +8,7 @@ const pool = mysql.createPool(keys.database);
 
 
 
+
 pool.then((res) => res.getConnection().
     then((connection: any) => {
 
@@ -15,7 +16,7 @@ pool.then((res) => res.getConnection().
         console.log('Database is connected.');
 
     })).catch((err) => {
-        queryErrors.errors(err);
+        queryErrors.dataBaseErrors(err);
     });
 
 

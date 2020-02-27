@@ -3,16 +3,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class QueryErrors {
     constructor() {
     }
-    errors(err) {
+    errors(err, res) {
         if (err) {
             if (err.code === 'ER_NO_SUCH_TABLE') {
                 console.error('sqlMessage: ' + err.sqlMessage);
-                return;
             }
             if (err.code === 'ER_BAD_FIELD_ERROR') {
                 console.error('sqlMessage: ' + err.sqlMessage);
-                return;
             }
+            res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+    }
+    dataBaseErrors(err) {
+        if (err) {
             if (err.code === 'PROTOCOL_CONNECTION_LOST') {
                 console.error('Database connection was closed.');
             }

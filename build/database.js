@@ -12,7 +12,7 @@ pool.then((res) => res.getConnection().
     res.releaseConnection(connection);
     console.log('Database is connected.');
 })).catch((err) => {
-    queryErrors_1.queryErrors.errors(err);
+    queryErrors_1.queryErrors.dataBaseErrors(err);
 });
 exports.default = pool;
 /*

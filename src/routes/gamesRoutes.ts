@@ -22,7 +22,7 @@ class GamesRoutes {
     /* CONFIGURA LAS RUTAS */
     config(): void {
         this.router.post('/',gamesController.create);
-        this.router.get('/', gamesController.read2);
+        this.router.get('/', gamesController.read);
         this.router.get('/:id', gamesController.readOne);
         this.router.put('/:id',gamesController.update);
         this.router.delete('/:id',gamesController.delete);

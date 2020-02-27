@@ -14,45 +14,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../database"));
 const queryErrors_1 = require("../err/queryErrors");
+const validations_1 = require("../validations/validations");
 class GamesController {
     create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const connection = (yield database_1.default).getConnection();
-            yield database_1.default.then((commandb) => {
-                commandb.query('INSERT INTO GAMES SET ?', [req.body]).then(() => {
-                    res.status(200).json({
-                        ok: true,
-                        Game: [req.body]
-                    });
-                }).catch(err => {
-                    queryErrors_1.queryErrors.errors(err);
-                    res.status(404).json({
-                        ok: false,
-                        err
-                    });
-                });
-            });
-        });
-    }
-    read2(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const connection = yield (yield database_1.default).getConnection();
             try {
                 yield connection.beginTransaction();
-                const query = 'SELECT * FROM GAMES';
-                const games = yield connection.query(query);
+                const query = 'INSERT INTO GAMES SET ?';
+                yield connection.query(query, [req.body]);
                 yield connection.commit();
-                res.status(200).json({
-                    ok: true,
-                    games
-                });
+                validations_1.validations.createValidations(req.body, res);
             }
-            catch (error) {
+            catch (err) {
                 yield connection.rollback();
-                res.status(400).json({
-                    ok: true,
-                    error
-                });
+                queryErrors_1.queryErrors.errors(err, res);
             }
             finally {
                 (yield database_1.default).releaseConnection(connection);
@@ -61,60 +37,82 @@ class GamesController {
     }
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.then((commandb) => {
-                commandb.query('SELECT * FROM GAMES').then((games) => {
-                    res.status(200).json({
-                        ok: true,
-                        games
-                    });
-                }).catch(err => {
-                    queryErrors_1.queryErrors.errors(err);
-                    res.status(404).json({
-                        ok: false,
-                        err
-                    });
-                });
-            });
-            // const games = pool.
-            // console.log(games);
-            // await pool.query('SELECT * FROM games', function(err, rows, fields){
-            //     if (err) throw err;
-            //     const games = rows;
-            //     res.json(games);
-            // });
-            // res.status(200).json({
-            //     ok: true,
-            //     // Mensaje: 'Game save.'
-            // });
+            const connection = yield (yield database_1.default).getConnection();
+            try {
+                yield connection.beginTransaction();
+                const query = 'SELECT * FROM GAMES';
+                const games = yield connection.query(query);
+                yield connection.commit();
+                validations_1.validations.readValidations(games, res);
+            }
+            catch (err) {
+                yield connection.rollback();
+                queryErrors_1.queryErrors.errors(err, res);
+            }
+            finally {
+                (yield database_1.default).releaseConnection(connection);
+            }
         });
     }
     update(req, res) {
-        res.json({
-            Mensaje: 'Updating a game. #' + req.params.id
+        return __awaiter(this, void 0, void 0, function* () {
+            const connection = yield (yield database_1.default).getConnection();
+            const { id } = req.params;
+            try {
+                yield connection.beginTransaction();
+                const query = 'UPDATE GAMES SET ? WHERE ID = ?';
+                const game = yield connection.query(query, [req.body, Number(id)]);
+                console.log(game);
+                yield connection.commit();
+                validations_1.validations.updateValidations(game, res);
+            }
+            catch (err) {
+                yield connection.rollback();
+                queryErrors_1.queryErrors.errors(err, res);
+            }
+            finally {
+                (yield database_1.default).releaseConnection(connection);
+            }
         });
     }
     delete(req, res) {
-        res.json({
-            Mensaje: 'Deleting a game. #' + req.params.id
+        return __awaiter(this, void 0, void 0, function* () {
+            const connection = yield (yield database_1.default).getConnection();
+            const { id } = req.params;
+            try {
+                yield connection.beginTransaction();
+                const query = 'DELETE FROM GAMES WHERE ID = ?';
+                const game = yield connection.query(query, [Number(id)]);
+                yield connection.commit();
+                validations_1.validations.deleteValidations(game, res);
+            }
+            catch (err) {
+                yield connection.rollback();
+                queryErrors_1.queryErrors.errors(err, res);
+            }
+            finally {
+                (yield database_1.default).releaseConnection(connection);
+            }
         });
     }
     readOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.then((commandb) => {
-                commandb.query('SELECT * FROM GAMES WHERE ID = ?', [Number(id)]).then((game) => {
-                    res.status(200).json({
-                        ok: true,
-                        game
-                    });
-                }).catch(err => {
-                    queryErrors_1.queryErrors.errors(err);
-                    res.status(404).json({
-                        ok: false,
-                        err
-                    });
-                });
-            });
+            const connection = yield (yield database_1.default).getConnection();
+            try {
+                yield connection.beginTransaction();
+                const query = 'SELECT * FROM GAMES WHERE ID = ?';
+                const game = yield connection.query(query, [Number(id)]);
+                yield connection.commit();
+                validations_1.validations.readValidationsOne(game, res);
+            }
+            catch (err) {
+                yield connection.rollback();
+                queryErrors_1.queryErrors.errors(err, res);
+            }
+            finally {
+                (yield database_1.default).releaseConnection(connection);
+            }
         });
     }
 }
