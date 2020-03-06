@@ -13,7 +13,9 @@ import cors from 'cors';
 /* IMPORTACIONES DE RUTAS */
 import indexRoutes from './routes/indexRoutes';
 import gamesRoutes from './routes/gamesRoutes';
-
+import uploadsRoutes from './routes/uploadsRoutes';
+import fileUpload from 'express-fileupload';
+import loadsRoutes from './routes/loadsRoutes';
 
 /* 
     *  
@@ -47,6 +49,8 @@ class Server {
         /* PETICIONES FORMATO JSON */
         this.app.use(express.json());
 
+        this.app.use(fileUpload());
+
         /* FUNCION DE CUANDO SE ENVIA POR X-WWW-FORM-URLENCODED - BODY-PARSE */
         this.app.use(express.urlencoded({ extended: false }));
     }
@@ -56,6 +60,8 @@ class Server {
     routes(): void {
         this.app.use('/', indexRoutes);
         this.app.use('/api/games', gamesRoutes);
+        this.app.use('/api/uploads', uploadsRoutes);
+        this.app.use('/api/loads', loadsRoutes);
     }
 
     /* INICIALIZA EL SERVIDOR */

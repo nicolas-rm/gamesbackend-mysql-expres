@@ -18,9 +18,13 @@ const validations_1 = require("../validations/validations");
 class GamesController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            // const nameFile = uploadsController.upload(req, res);
+            // req.body.IMAGE = nameFile;
             const connection = yield (yield database_1.default).getConnection();
             try {
                 yield connection.beginTransaction();
+                console.log('ESTE ES EL BODY');
+                console.log([req.body]);
                 const query = 'INSERT INTO GAMES SET ?';
                 yield connection.query(query, [req.body]);
                 yield connection.commit();

@@ -10,7 +10,7 @@ class Validations {
     }
 
     public readValidations(result: any, res: Response) {
-        if (result.length > 0) {
+        if (result.length >= 0) {
             res.status(200).json({
                 ok: true,
                 Games: result

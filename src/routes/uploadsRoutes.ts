@@ -6,10 +6,12 @@
 */
 
 import { Router } from 'express';
-import gamesController from '../controllers/gamesController';
+import { uploadsController } from '../controllers/uploadsController';
 
 
-class GamesRoutes {
+
+
+class UploadsRoutes {
 
     /* ENROUTADOR */
     public router: Router = Router();
@@ -22,11 +24,11 @@ class GamesRoutes {
 
     /* CONFIGURA LAS RUTAS */
     config(): void {
-        this.router.post('/', gamesController.create);
-        this.router.get('/', gamesController.read);
-        this.router.get('/:id', gamesController.readOne);
-        this.router.put('/:id', gamesController.update);
-        this.router.delete('/:id', gamesController.delete);
+        // this.router.post('/', uploadsController.upload);
+        // this.router.get('/', gamesController.read);
+        // this.router.get('/:id', gamesController.readOne);
+        this.router.put('/:title/?:imagen', uploadsController.upload);
+        // this.router.delete('/:id', gamesController.delete);
     }
     
 }
@@ -38,7 +40,7 @@ class GamesRoutes {
     * DEVUELVE UN OBJETO
 */
 
-const gamesRoutes = new GamesRoutes();
+const uploadsRoutes = new UploadsRoutes();
 
 /* 
     * EXPORTA SOLAMENTE EL ROUTER, 
@@ -46,4 +48,4 @@ const gamesRoutes = new GamesRoutes();
     * OTRO LUGAR Y NO TODO EL OBJETO
 */
 
-export default gamesRoutes.router;
+export default uploadsRoutes.router;

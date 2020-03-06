@@ -14,6 +14,9 @@ const cors_1 = __importDefault(require("cors"));
 /* IMPORTACIONES DE RUTAS */
 const indexRoutes_1 = __importDefault(require("./routes/indexRoutes"));
 const gamesRoutes_1 = __importDefault(require("./routes/gamesRoutes"));
+const uploadsRoutes_1 = __importDefault(require("./routes/uploadsRoutes"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const loadsRoutes_1 = __importDefault(require("./routes/loadsRoutes"));
 /*
     *
     * CREAR SERVIDOR
@@ -36,6 +39,7 @@ class Server {
         this.app.use(cors_1.default());
         /* PETICIONES FORMATO JSON */
         this.app.use(express_1.default.json());
+        this.app.use(express_fileupload_1.default());
         /* FUNCION DE CUANDO SE ENVIA POR X-WWW-FORM-URLENCODED - BODY-PARSE */
         this.app.use(express_1.default.urlencoded({ extended: false }));
     }
@@ -43,6 +47,8 @@ class Server {
     routes() {
         this.app.use('/', indexRoutes_1.default);
         this.app.use('/api/games', gamesRoutes_1.default);
+        this.app.use('/api/uploads', uploadsRoutes_1.default);
+        this.app.use('/api/loads', loadsRoutes_1.default);
     }
     /* INICIALIZA EL SERVIDOR */
     start() {

@@ -8,7 +8,7 @@ class Validations {
         });
     }
     readValidations(result, res) {
-        if (result.length > 0) {
+        if (result.length >= 0) {
             res.status(200).json({
                 ok: true,
                 Games: result
